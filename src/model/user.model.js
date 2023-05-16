@@ -41,13 +41,13 @@ const UserModel = seq.define('emilia_user', {
   //用户数据;
   user_data: {
     type: DataTypes.INTEGER,
-    allowNull: true,
-    unique: true,
+    allowNull: false,
+    unique: false,
     defaultValue: '0',
     comment: '用户数据',
   },
 });
 // 模型同步;
-UserModel.sync({ force: true });
+// UserModel.sync({ force: true });
 // 导出;
 module.exports = UserModel;

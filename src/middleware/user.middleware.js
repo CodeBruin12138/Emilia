@@ -6,8 +6,15 @@ const {
   userPasswordFormatError,
   userCheckPasswordFail,
   userEncryptPasswordFail,
+  userCheckUserNameOrPasswordFail,
+  userUserNameOrPasswordEmpty,
+  userVerifyLoginFail,
+  userNotExist,
+  userPasswordNotMatch,
 } = require('../constant/error/user.error.type');
-// /判断用户密码;
+// 用户相关数据库操作;
+const { getUserInfo } = require('../service/user.service');
+// 判断用户密码;
 const checkUserPassword = async (ctx, next) => {
   try {
     // 获取用户请求数据;
@@ -36,7 +43,7 @@ const checkUserPassword = async (ctx, next) => {
     return;
   }
 };
-//用户密码加密;
+// 用户密码加密;
 const encryptUserPassword = async (ctx, next) => {
   try {
     // 生成盐;
@@ -52,9 +59,59 @@ const encryptUserPassword = async (ctx, next) => {
     return;
   }
 };
+// 校验登录;
+const verifyLogin = async (ctx, next) => {
+  try {
+    // 校验用户是否存在;
+    // 获取用户请求数据;
+    const user_name = ctx.request.body.user_name;
+    const user_password = ctx.request.body.user_password;
+    // 判断用户是否存在;
+    const result = await getUserInfo({ user_name });
+    if (!result) {
+      console.error('用户不存在', ctx.request.body);
+      ctx.app.emit('error', userNotExist, ctx);
+      return;
+    }
+    // 校验用户密码;
+    const isMatch = await bcrypt.compareSync(
+      user_password,
+      result.user_password
+    );
+    if (!isMatch) {
+      console.error('用户密码不匹配', ctx.request.body);
+      ctx.app.emit('error', userPasswordNotMatch, ctx);
+      return;
+    }
+    await next();
+  } catch (error) {
+    console.error('校验用户登录失败', error);
+    ctx.app.emit('error', userVerifyLoginFail, ctx);
+  }
+};
+// 校验用户名或者密码是否为空;
+const checkUserNameOrPassword = async (ctx, next) => {
+  try {
+    // 获取用户请求数据;
+    const user_name = ctx.request.body.user_name;
+    const user_password = ctx.request.body.user_password;
+    if (!user_name || !user_password) {
+      console.error('用户名或者密码为空', ctx.request.body);
+      ctx.app.emit('error', userUserNameOrPasswordEmpty, ctx);
+      return;
+    }
+    await next();
+  } catch (error) {
+    console.error('校验用户名或者密码失败', error);
+    ctx.app.emit('error', userCheckUserNameOrPasswordFail, ctx);
+    return;
+  }
+};
 
 // 导出中间件;
 module.exports = {
   checkUserPassword,
   encryptUserPassword,
+  verifyLogin,
+  checkUserNameOrPassword,
 };
