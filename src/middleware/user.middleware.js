@@ -14,7 +14,7 @@ const {
 } = require('../constant/error/user.error.type');
 // 用户相关数据库操作;
 const { getUserInfo } = require('../service/user.service');
-// 判断用户密码;
+// 判断用户密码是否为空,及是否符合标准;
 const checkUserPassword = async (ctx, next) => {
   try {
     // 获取用户请求数据;

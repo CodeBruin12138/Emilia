@@ -4,6 +4,8 @@ const UserModel = require('../model/user.model');
 const {
   userGetInfoFail,
   userAddFail,
+  userUpdateInfoFail,
+  userUpdateDataFail,
 } = require('../constant/error/user.error.type');
 class UserService {
   // 用户注册;
@@ -59,6 +61,41 @@ class UserService {
     } catch (error) {
       console.error('查询用户数据失败', error);
       ctx.app.emit('error', userGetInfoFail, ctx);
+    }
+  }
+  // 修改用户基础信息;
+  async updateUserInfo({
+    id,
+    user_name,
+    user_password,
+    user_admin,
+    user_shop,
+    user_data,
+  }) {
+    try {
+      const whereOpt = { id };
+      const newUser = {};
+      user_name && Object.assign(newUser, { user_name });
+      user_password && Object.assign(newUser, { user_password });
+      user_admin && Object.assign(newUser, { user_admin });
+      user_shop && Object.assign(newUser, { user_shop });
+      user_data && Object.assign(newUser, { user_data });
+      const result = await UserModel.update(newUser, {
+        where: whereOpt,
+      });
+      // return result[0] > 0 ? true : false;
+      return false;
+    } catch (error) {
+      console.error('修改用户基础信息失败', error);
+      ctx.app.emit('error', userUpdateInfoFail, ctx);
+    }
+  }
+  // 修改用户详细信息;需要结合用户详细信息库进行操作,目前暂时不做;
+  async updateUserData({}) {
+    try {
+    } catch (error) {
+      console.error('修改用户详细信息失败', error);
+      ctx.app.emit('error', userUpdateDataFail, ctx);
     }
   }
 }

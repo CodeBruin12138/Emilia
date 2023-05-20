@@ -9,8 +9,13 @@ const {
   checkUserNameOrPassword,
   verifyLogin,
 } = require('../middleware/user.middleware');
+const { verifyToken } = require('../middleware/auth.middleware');
 //控制器;
-const { userRegister, userLogin } = require('../controller/user.controller');
+const {
+  userRegister,
+  userLogin,
+  userChangePassword,
+} = require('../controller/user.controller');
 // 实例化路由并配置前缀;
 const router = new Router({ prefix: '/users' });
 // 用户注册;
@@ -34,6 +39,16 @@ router.post(
   userLogin
 );
 // 修改密码;
-router.patch('/userChangePassword');
+router.patch(
+  '/userChangePassword',
+  // 校验token;
+  verifyToken,
+  // 校验密码是否为空;
+  checkUserPassword,
+  // 加密密码;
+  encryptUserPassword,
+  // 修改密码;
+  userChangePassword
+);
 
 module.exports = router;

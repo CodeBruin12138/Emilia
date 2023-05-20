@@ -78,4 +78,28 @@ module.exports = {
     message: '用户登录失败',
     result: '',
   },
+  // 修改用户基础信息失败;
+  userUpdateInfoFail: {
+    code: 10014,
+    message: '修改用户基础信息失败',
+    result: '',
+  },
+  // 修改用户详细信息失败;
+  userUpdateDataFail: {
+    code: 10015,
+    message: '修改用户详细信息失败',
+    result: '',
+  },
+  // 修改密码失败;
+  userChangePasswordFail: {
+    code: 10016,
+    message: '修改密码失败',
+    result: '',
+  },
+  // 修改密码时出错;
+  userChangePasswordError: {
+    code: 10017,
+    message: '修改密码时出错',
+    result: '',
+  },
 };

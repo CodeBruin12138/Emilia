@@ -2,13 +2,18 @@
 const jwt = require('jsonwebtoken');
 // 环境变量;
 const { JWT_SECRET } = require('../config/config.default');
-
 // 用户相关的数据库操作;
-const { userRegister, getUserInfo } = require('../service/user.service');
+const {
+  userRegister,
+  getUserInfo,
+  updateUserInfo,
+} = require('../service/user.service');
 // 错误类型;
 const {
   userRegisterFail,
   userLoginFail,
+  userChangePasswordFail,
+  userChangePasswordError,
 } = require('../constant/error/user.error.type');
 class UserController {
   // 用户注册;
@@ -55,12 +60,34 @@ class UserController {
           token: jwt.sign(result, JWT_SECRET, { expiresIn: '1d' }),
         },
       };
-
-      // 生成token;
     } catch (error) {
       console.error('用户登录失败', error);
       ctx.app.emit('error', userLoginFail, ctx);
       return;
+    }
+  }
+  // 修改密码;
+  async userChangePassword(ctx, next) {
+    try {
+      // 获取用户请求信息;
+      const id = ctx.state.user.id;
+      const user_password = ctx.request.body.user_password;
+      // 根据id修改用户密码;
+      const result = await updateUserInfo({ id, user_password });
+      if (result) {
+        ctx.body = {
+          code: 0,
+          message: '修改密码成功',
+          result: '',
+        };
+      } else {
+        console.error('修改密码失败', ctx.request.body);
+        ctx.app.emit('error', userChangePasswordFail, ctx);
+        return;
+      }
+    } catch (error) {
+      console.error('修改密码时出错', error);
+      ctx.app.emit('error', userChangePasswordError, ctx);
     }
   }
 }
