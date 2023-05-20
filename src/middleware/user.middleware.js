@@ -87,6 +87,7 @@ const verifyLogin = async (ctx, next) => {
   } catch (error) {
     console.error('校验用户登录失败', error);
     ctx.app.emit('error', userVerifyLoginFail, ctx);
+    return;
   }
 };
 // 校验用户名或者密码是否为空;

@@ -88,6 +88,7 @@ class UserController {
     } catch (error) {
       console.error('修改密码时出错', error);
       ctx.app.emit('error', userChangePasswordError, ctx);
+      return;
     }
   }
 }

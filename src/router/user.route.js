@@ -1,5 +1,5 @@
 /**
- * 用户路由;
+ * 用户相关路由;
  */
 const Router = require('@koa/router');
 //中间件;

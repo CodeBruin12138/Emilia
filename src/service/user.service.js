@@ -83,8 +83,7 @@ class UserService {
       const result = await UserModel.update(newUser, {
         where: whereOpt,
       });
-      // return result[0] > 0 ? true : false;
-      return false;
+      return result[0] > 0 ? true : false;
     } catch (error) {
       console.error('修改用户基础信息失败', error);
       ctx.app.emit('error', userUpdateInfoFail, ctx);
