@@ -18,4 +18,10 @@ module.exports = {
     message: '校验用户上传文件失败',
     result: '',
   },
+  //上传文件个数超出限制;
+  uploadFileNumberExceedLimit: {
+    code: 30004,
+    message: '上传文件个数超出限制',
+    result: '',
+  },
 };

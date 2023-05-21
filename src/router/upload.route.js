@@ -26,5 +26,4 @@ router.post(
   //商品图片上传;
   goodsImgUpload
 );
-
 module.exports = router;

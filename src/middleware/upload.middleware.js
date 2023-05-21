@@ -6,12 +6,26 @@ const {
   uploadFileSizeExceedLimit,
   uploadFileTypeError,
   uploadFileVerifyFail,
+  uploadFileNumberExceedLimit,
 } = require('../constant/error/upload.error.type');
 // 限制用户上传文件的大小及类型;
 const checkUserUploadFileSizeAndType = async (ctx, next) => {
   try {
+    // 限制用户只能上传一个文件;
+    // 判断用户上传文件个数;
+    if (ctx.request.files.file.length > 1) {
+      // 如果用户上传文件个数大于1就删除所有文件;
+      ctx.request.files.file.forEach((file) => {
+        const illegalFileName = file.newFilename;
+        fs.unlinkSync(path.join(__dirname, `../upload/${illegalFileName}`));
+      });
+      console.error('上传文件个数超过1个', ctx.request.files.file);
+      ctx.app.emit('error', uploadFileNumberExceedLimit, ctx);
+      return;
+    }
     // 获取用户上传文件的大小;
     const fileSize = ctx.request.files.file.size;
+    console.log(ctx.request.files);
     // 限制图片大小为500kb以下;
     if (fileSize > 512000) {
       // 如果图片过大就删除图片;
