@@ -16,6 +16,8 @@ app.use(
   koaBody({
     // 支持文件上传;
     multipart: true,
+    // 挂载那些请求方式;
+    parsedMethods: ['POST', 'PUT', 'PATCH', 'GET', 'HEAD', 'DELETE'],
     // 文件上传配置;
     formidable: {
       // 保留文件扩展名;

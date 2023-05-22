@@ -30,4 +30,10 @@ module.exports = {
     message: '无效的购物车id',
     result: '',
   },
+  // 删除购物车失败;
+  delCartFail: {
+    code: 50006,
+    message: '删除购物车失败',
+    result: '',
+  },
 };

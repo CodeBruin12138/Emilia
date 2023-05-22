@@ -7,6 +7,7 @@ const {
   createOrUpdateCart,
   findCartsByUserId,
   updateCart,
+  delCart,
 } = require('../service/cart.service');
 const { searchGoods } = require('../service/goods.service');
 // 错误类型;
@@ -15,6 +16,7 @@ const {
   getCartListFail,
   updateCartFail,
   invalidCartId,
+  delCartFail,
 } = require('../constant/error/cart.error.type');
 const { invalidGoodsId } = require('../constant/error/goods.error.type');
 const { verifyParamsIncomplete } = require('../constant/error/auth.error.type');
@@ -103,6 +105,31 @@ class CartController {
     } catch (error) {
       console.error('更新购物车失败', error);
       ctx.app.emit('error', updateCartFail, ctx);
+      return;
+    }
+  }
+  //删除购物车;
+  async delCart(ctx, next) {
+    try {
+      // 获取用户请求数据;
+      const cart_id = ctx.request.body.cart_id;
+      // 删除数据库;
+      const result = await delCart(cart_id);
+      if (result > 0) {
+        ctx.body = {
+          code: 0,
+          message: '删除购物车成功',
+          result,
+        };
+      } else {
+        // 如果删除失败就返回错误;
+        console.error('无效的购物车ID', result);
+        ctx.app.emit('error', invalidCartId, ctx);
+        return;
+      }
+    } catch (error) {
+      console.error('删除购物车失败', error);
+      ctx.app.emit('error', delCartFail, ctx);
       return;
     }
   }

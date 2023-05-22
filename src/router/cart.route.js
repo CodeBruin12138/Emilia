@@ -6,6 +6,7 @@ const {
   addCart,
   getCartList,
   updateCart,
+  delCart,
 } = require('../controller/cart.controller');
 //中间件;
 const {
@@ -59,6 +60,24 @@ router.patch(
     },
   }),
   updateCart
+);
+//删除购物车;
+router.delete(
+  '/delCart',
+  //校验用户是否登录;
+  verifyToken,
+  //校验参数格式;
+  validateParams({
+    // 商品id;
+    cart_id: {
+      // 类型;
+      type: 'array',
+      // 必填;
+      required: true,
+    },
+  }),
+  //删除购物车;
+  delCart
 );
 
 module.exports = router;

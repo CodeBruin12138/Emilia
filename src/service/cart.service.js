@@ -10,6 +10,7 @@ const {
   addCartFail,
   getCartListFail,
   updateCartFail,
+  delCartFail,
 } = require('../constant/error/cart.error.type');
 class CartService {
   // 添加购物车;
@@ -93,6 +94,22 @@ class CartService {
     } catch (error) {
       console.error('更新购物车失败', error);
       ctx.app.emit('error', updateCartFail, ctx);
+      return;
+    }
+  }
+  // 删除购物车;
+  async delCart(cart_id) {
+    try {
+      return await CartModel.destroy({
+        where: {
+          id: {
+            [Op.in]: cart_id,
+          },
+        },
+      });
+    } catch (error) {
+      console.error('删除购物车失败', error);
+      ctx.app.emit('error', delCartFail, ctx);
       return;
     }
   }
