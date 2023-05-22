@@ -6,7 +6,10 @@
     "jsonwebtoken": "^9.0.0",
     "koa": "^2.14.2",
     "koa-body": "^6.0.1",
+    "koa-parameter": "^3.0.1",
+    "koa-static": "^5.0.0",
     "mysql2": "^3.3.0",
+    "parameter": "^3.7.0",
     "sequelize": "^6.31.1"
   },
   "name": "emilia",

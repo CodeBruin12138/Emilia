@@ -11,6 +11,7 @@ const {
   tokenExpired,
   verifySuperShopAdminFail,
   verifySuperShopAdminError,
+  verifyParamsFail,
 } = require('../constant/error/auth.error.type');
 
 // token校验;
@@ -78,8 +79,46 @@ const verifySuperShopAdmin = async (ctx, next) => {
     return;
   }
 };
+// 添加商品参数校验;
+const verifyParams = async (ctx, next) => {
+  try {
+    ctx.verifyParams({
+      // 商品名;
+      goods_name: {
+        type: 'string',
+        required: true,
+        allowEmpty: false,
+        max: 6,
+        min: 3,
+        trim: true,
+        // format: /^[a-zA-Z0-9]{3,6}$/,
+        正则大小写数值字母加符号最少9位,
+        最多16位: /^[a-zA-Z0-9]{9,16}$/,
+      },
+      // 商品价格;
+      goods_price: { type: 'number', required: true },
+      // 商品库存;
+      goods_stock: { type: 'number', required: true },
+      // 商品图片;
+      goods_img: { type: 'string', required: true },
+      // 商品描述;
+      goods_description: { type: 'string', required: true },
+      // 商品状态;
+      goods_status: { type: 'number', required: true },
+      //店铺;
+      shop_id: { type: 'number', required: true },
+    });
+  } catch (error) {
+    console.error('参数校验失败', error);
+    verifyParamsFail.result = error;
+    ctx.app.emit('error', verifyParamsFail, ctx);
+    return;
+  }
+};
+
 // 导出;
 module.exports = {
   verifyToken,
   verifySuperShopAdmin,
+  verifyParams,
 };

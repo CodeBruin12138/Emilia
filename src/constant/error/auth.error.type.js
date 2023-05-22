@@ -30,4 +30,10 @@ module.exports = {
     message: '该账号非店铺超级管理员账号',
     result: '',
   },
+  //参数校验失败;
+  verifyParamsFail: {
+    code: 20006,
+    message: '参数校验失败',
+    result: '',
+  },
 };

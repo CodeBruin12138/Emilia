@@ -6,6 +6,6 @@ const Router = require('@koa/router');
 const router = new Router({ prefix: '/' });
 // 用户注册;
 router.get('/', async (ctx, next) => {
-  ctx.body = 'Hello World!';
+  ctx.body = '<h1>Welcome to the Emilia system (*^▽^*)</h1>';
 });
 module.exports = router;
