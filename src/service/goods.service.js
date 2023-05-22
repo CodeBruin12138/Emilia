@@ -1,4 +1,4 @@
-//用户相关的数据库操作;
+//商品相关的数据库操作;
 
 // 商品数据库模型;
 const GoodsModel = require('../model/goods.model');
