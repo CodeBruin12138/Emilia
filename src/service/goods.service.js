@@ -6,6 +6,9 @@ const GoodsModel = require('../model/goods.model');
 const {
   publishGoodsFail,
   changeGoodsFail,
+  removeGoodsFail,
+  restoreGoodsFail,
+  getGoodsListFail,
 } = require('../constant/error/goods.error.type');
 class GoodsService {
   // 发布商品;
@@ -36,9 +39,57 @@ class GoodsService {
       return;
     }
   }
-  // 删除商品;
-
+  //下架商品;
+  async removeGoods(id) {
+    try {
+      const result = await GoodsModel.destroy({
+        where: {
+          id,
+        },
+      });
+      return result > 0 ? true : false;
+    } catch (error) {
+      console.error('下架商品失败', error);
+      ctx.app.emit('error', removeGoodsFail, ctx);
+      return;
+    }
+  }
+  //下架商品;
+  async restoreGoods(id) {
+    try {
+      const result = await GoodsModel.restore({
+        where: {
+          id,
+        },
+      });
+      return result > 0 ? true : false;
+    } catch (error) {
+      console.error('上架商品失败', error);
+      ctx.app.emit('error', restoreGoodsFail, ctx);
+      return;
+    }
+  }
   // 获取商品列表;
+  async getGoodsList(pageNum, pageSize) {
+    try {
+      const result = await GoodsModel.findAndCountAll({
+        limit: pageSize * 1,
+        offset: (pageNum - 1) * pageSize,
+      });
+      return {
+        pageNum,
+        pageSize,
+        total: result.length,
+        list: result,
+      };
+    } catch (error) {
+      console.error('获取商品列表失败', error);
+      ctx.app.emit('error', getGoodsListFail, ctx);
+      return;
+    }
+  }
+  // 获取店铺商品列表;
+  async getShopGoodsList(shop_id, pageNum, pageSize) {}
 
   // 获取商品详情;
 }

@@ -18,4 +18,22 @@ module.exports = {
     message: '无效的商品id',
     result: '',
   },
+  // 下架商品失败;
+  removeGoodsFail: {
+    code: 40004,
+    message: '下架商品失败',
+    result: '',
+  },
+  // 上架商品失败;
+  restoreGoodsFail: {
+    code: 40005,
+    message: '上架商品失败',
+    result: '',
+  },
+  // 获取商品列表失败;
+  getGoodsListFail: {
+    code: 40006,
+    message: '获取商品列表失败',
+    result: '',
+  },
 };
