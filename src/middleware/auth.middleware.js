@@ -12,6 +12,7 @@ const {
   verifySuperShopAdminFail,
   verifySuperShopAdminError,
   verifyParamsFail,
+  verifyParamsError,
 } = require('../constant/error/auth.error.type');
 
 // token校验;
@@ -115,10 +116,25 @@ const verifyParams = async (ctx, next) => {
     return;
   }
 };
+//参数校验;
+const validateParams = (rules) => {
+  return async (ctx, next) => {
+    try {
+      ctx.verifyParams(rules);
+      await next();
+    } catch (error) {
+      console.error('参数格式错误', error);
+      verifyParamsError.result = error;
+      ctx.app.emit('error', verifyParamsError, ctx);
+      return;
+    }
+  };
+};
 
 // 导出;
 module.exports = {
   verifyToken,
   verifySuperShopAdmin,
   verifyParams,
+  validateParams,
 };

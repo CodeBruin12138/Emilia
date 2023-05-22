@@ -36,4 +36,16 @@ module.exports = {
     message: '参数校验失败',
     result: '',
   },
+  //参数格式错误;
+  verifyParamsError: {
+    code: 20007,
+    message: '参数格式错误',
+    result: '',
+  },
+  //参数不完整;
+  verifyParamsIncomplete: {
+    code: 20008,
+    message: '参数不完整',
+    result: '',
+  },
 };

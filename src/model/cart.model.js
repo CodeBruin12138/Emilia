@@ -1,5 +1,7 @@
 // 商品数据库模型;
 const { DataTypes } = require('sequelize');
+// 商品数据库模型;
+const GoodsModel = require('./goods.model');
 // 数据库连接;
 const seq = require('../db/seq');
 // 商品模型数据;
@@ -60,8 +62,14 @@ const CartModel = seq.define(
     paranoid: true,
   }
 );
-
 // 模型同步;
 // CartModel.sync({ force: true });
+// 关联商品模型;
+CartModel.belongsTo(GoodsModel, {
+  // 关联字段;
+  foreignKey: 'goods_id',
+  // 别名;
+  as: 'goods_info',
+});
 // 导出;
 module.exports = CartModel;

@@ -12,4 +12,22 @@ module.exports = {
     message: '购物车参数格式校验失败',
     result: '',
   },
+  // 获取购物车列表失败;
+  getCartListFail: {
+    code: 50003,
+    message: '获取购物车列表失败',
+    result: '',
+  },
+  // 更新购物车失败;
+  updateCartFail: {
+    code: 50004,
+    message: '更新购物车失败',
+    result: '',
+  },
+  // 无效的购物车id;
+  invalidCartId: {
+    code: 50005,
+    message: '无效的购物车id',
+    result: '',
+  },
 };
