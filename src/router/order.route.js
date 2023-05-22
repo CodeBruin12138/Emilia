@@ -3,7 +3,11 @@
  */
 const Router = require('@koa/router');
 //控制器;
-const { submitOrder } = require('../controller/order.controller');
+const {
+  submitOrder,
+  getOrderListController,
+  updateOrderStatusController,
+} = require('../controller/order.controller');
 //中间件;
 const {
   verifyToken,
@@ -25,7 +29,7 @@ router.post(
     },
     // 商品列表;
     goods_info: {
-      type: 'array',
+      type: 'string',
       required: true,
     },
     // 总价;
@@ -37,5 +41,9 @@ router.post(
   // 提交订单;
   submitOrder
 );
+// 获取订单列表;
+router.get('/getOrderList', verifyToken, getOrderListController);
+// 修改订单状态;
+router.patch('/updateOrderStatus', verifyToken, updateOrderStatusController);
 
 module.exports = router;

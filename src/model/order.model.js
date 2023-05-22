@@ -52,7 +52,7 @@ const OrderModel = seq.define('emilia_orders', {
   // 商品信息;
   goods_info: {
     // 类型;
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
     // 是否允许为空;
     allowNull: false,
     //是否唯一;
@@ -71,7 +71,7 @@ const OrderModel = seq.define('emilia_orders', {
     // 默认值;
     defaultValue: 0,
     // 注释;
-    comment: '订单状态',
+    comment: '订单状态,0:未支付,1:已支付,2:已发货,3:已签收,4:已取消',
   },
 });
 // 模型同步;
