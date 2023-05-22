@@ -7,6 +7,8 @@ const {
   getCartList,
   updateCart,
   delCart,
+  checkAll,
+  unCheckAll,
 } = require('../controller/cart.controller');
 //中间件;
 const {
@@ -78,6 +80,22 @@ router.delete(
   }),
   //删除购物车;
   delCart
+);
+// 购物车全选;
+router.post(
+  '/checkAll',
+  //校验用户是否登录;
+  verifyToken,
+  //购物车全选;
+  checkAll
+);
+// 购物车全不选;
+router.post(
+  '/unCheckAll',
+  //校验用户是否登录;
+  verifyToken,
+  //购物车全不选;
+  unCheckAll
 );
 
 module.exports = router;

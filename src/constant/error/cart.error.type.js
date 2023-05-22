@@ -36,4 +36,16 @@ module.exports = {
     message: '删除购物车失败',
     result: '',
   },
+  // 购物车全选失败;
+  checkAllFail: {
+    code: 50007,
+    message: '购物车全选失败',
+    result: '',
+  },
+  // 购物车全不选失败;
+  unCheckAllFail: {
+    code: 50008,
+    message: '购物车全不选失败',
+    result: '',
+  },
 };

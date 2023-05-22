@@ -11,6 +11,8 @@ const {
   getCartListFail,
   updateCartFail,
   delCartFail,
+  checkAllFail,
+  unCheckAllFail,
 } = require('../constant/error/cart.error.type');
 class CartService {
   // 添加购物车;
@@ -110,6 +112,44 @@ class CartService {
     } catch (error) {
       console.error('删除购物车失败', error);
       ctx.app.emit('error', delCartFail, ctx);
+      return;
+    }
+  }
+  //购物车全选;
+  async checkAllService(user_id) {
+    try {
+      return await CartModel.update(
+        {
+          goods_checked: true,
+        },
+        {
+          where: {
+            user_id,
+          },
+        }
+      );
+    } catch (error) {
+      console.error('购物车全选失败', error);
+      ctx.app.emit('error', checkAllFail, ctx);
+      return;
+    }
+  }
+  //购物车全不选;
+  async unCheckAllService(user_id) {
+    try {
+      return await CartModel.update(
+        {
+          goods_checked: false,
+        },
+        {
+          where: {
+            user_id,
+          },
+        }
+      );
+    } catch (error) {
+      console.error('购物车全不选失败', error);
+      ctx.app.emit('error', unCheckAllFail, ctx);
       return;
     }
   }

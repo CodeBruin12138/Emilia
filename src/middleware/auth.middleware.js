@@ -117,15 +117,15 @@ const verifyParams = async (ctx, next) => {
   }
 };
 //参数校验;
-const validateParams = (rules) => {
+const validateParams = (rules, errorType) => {
   return async (ctx, next) => {
     try {
       ctx.verifyParams(rules);
       await next();
     } catch (error) {
-      console.error('参数格式错误', error);
-      verifyParamsError.result = error;
-      ctx.app.emit('error', verifyParamsError, ctx);
+      console.error(errorType.message, error);
+      errorType.result = error;
+      ctx.app.emit('error', errorType, ctx);
       return;
     }
   };

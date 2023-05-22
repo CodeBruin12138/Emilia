@@ -8,6 +8,8 @@ const {
   findCartsByUserId,
   updateCart,
   delCart,
+  checkAllService,
+  unCheckAllService,
 } = require('../service/cart.service');
 const { searchGoods } = require('../service/goods.service');
 // 错误类型;
@@ -17,6 +19,8 @@ const {
   updateCartFail,
   invalidCartId,
   delCartFail,
+  checkAllFail,
+  unCheckAllFail,
 } = require('../constant/error/cart.error.type');
 const { invalidGoodsId } = require('../constant/error/goods.error.type');
 const { verifyParamsIncomplete } = require('../constant/error/auth.error.type');
@@ -130,6 +134,44 @@ class CartController {
     } catch (error) {
       console.error('删除购物车失败', error);
       ctx.app.emit('error', delCartFail, ctx);
+      return;
+    }
+  }
+  //购物车全选;
+  async checkAll(ctx, next) {
+    try {
+      // 获取用户id;
+      const user_id = ctx.state.user.id;
+      // 根据用户id查询购物车列表并修改数据库中的商品选中状态;
+      const result = await checkAllService(user_id);
+      // 返回结果;
+      ctx.body = {
+        code: 0,
+        message: '购物车全选成功',
+        result,
+      };
+    } catch (error) {
+      console.error('购物车全选失败', error);
+      ctx.app.emit('error', checkAllFail, ctx);
+      return;
+    }
+  }
+  //购物车全不选;
+  async unCheckAll(ctx, next) {
+    try {
+      // 获取用户id;
+      const user_id = ctx.state.user.id;
+      // 根据用户id查询购物车列表并修改数据库中的商品选中状态;
+      const result = await unCheckAllService(user_id);
+      // 返回结果;
+      ctx.body = {
+        code: 0,
+        message: '购物车全不选成功',
+        result,
+      };
+    } catch (error) {
+      console.error('购物车全不选失败', error);
+      ctx.app.emit('error', unCheckAllFail, ctx);
       return;
     }
   }
