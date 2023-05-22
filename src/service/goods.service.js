@@ -9,6 +9,7 @@ const {
   removeGoodsFail,
   restoreGoodsFail,
   getGoodsListFail,
+  getGoodsFail,
 } = require('../constant/error/goods.error.type');
 class GoodsService {
   // 发布商品;
@@ -89,7 +90,20 @@ class GoodsService {
     }
   }
   // 获取店铺商品列表;
-  async getShopGoodsList(shop_id, pageNum, pageSize) {}
+  // 查询商品;
+  async searchGoods(goods_id) {
+    try {
+      // 根据商品id查询商品;
+      const result = await GoodsModel.findOne({
+        where: { id: goods_id },
+      });
+      return result ? result.dataValues : null;
+    } catch (error) {
+      console.error('查询商品失败', error);
+      ctx.app.emit('error', getGoodsFail, ctx);
+      return;
+    }
+  }
 
   // 获取商品详情;
 }

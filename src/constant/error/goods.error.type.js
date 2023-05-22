@@ -36,4 +36,10 @@ module.exports = {
     message: '获取商品列表失败',
     result: '',
   },
+  //查询商品失败;
+  getGoodsFail: {
+    code: 40007,
+    message: '查询商品失败',
+    result: '',
+  },
 };
