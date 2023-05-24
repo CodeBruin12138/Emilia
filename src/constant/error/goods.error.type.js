@@ -42,4 +42,10 @@ module.exports = {
     message: '查询商品失败',
     result: '',
   },
+  // 搜索商品失败;
+  searchGoodsFail: {
+    code: 40008,
+    message: '搜索商品失败',
+    result: '',
+  },
 };

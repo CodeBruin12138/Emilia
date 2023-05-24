@@ -9,6 +9,7 @@ const {
   restoreGoods,
   getGoodsList,
   getShopGoodsList,
+  searchGoods,
 } = require('../controller/goods.controller');
 //中间件;
 const {
@@ -64,6 +65,7 @@ router.post(
 router.get('/getGoodsList', getGoodsList);
 // 获取店铺商品列表;
 router.get('/getShopGoodsList', verifyToken, getShopGoodsList);
-// 获取商品详情;
+// 实时搜索商品;
+router.get('/searchGoods', searchGoods);
 
 module.exports = router;

@@ -7,6 +7,7 @@ const {
   removeGoods,
   restoreGoods,
   getGoodsList,
+  searchGoods,
 } = require('../service/goods.service');
 // 错误类型;
 const {
@@ -16,6 +17,7 @@ const {
   removeGoodsFail,
   restoreGoodsFail,
   getGoodsListFail,
+  searchGoodsFail,
 } = require('../constant/error/goods.error.type');
 class GoodsController {
   // 发布商品;
@@ -138,6 +140,31 @@ class GoodsController {
   }
   // 获取店铺商品列表;
   async getShopGoodsList(ctx, next) {}
-  // 获取商品详情;
+  // 搜索商品;
+  async searchGoods(ctx, next) {
+    try {
+      //获取用户请求数据;
+      const { keyword } = ctx.request.query;
+      //调用数据库操作;
+      const result = await searchGoods(keyword);
+      if (result) {
+        ctx.body = {
+          code: 0,
+          message: '搜索商品成功',
+          result,
+        };
+      } else {
+        ctx.body = {
+          code: 0,
+          message: '暂无搜索结果',
+          result,
+        };
+      }
+    } catch (error) {
+      console.error('搜索商品失败', error);
+      ctx.app.emit('error', searchGoodsFail, ctx);
+      return;
+    }
+  }
 }
 module.exports = new GoodsController();

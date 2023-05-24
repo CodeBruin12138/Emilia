@@ -2,6 +2,7 @@
  * 默认路由;
  */
 const Router = require('@koa/router');
+const { searchService } = require('../service/index.service');
 // 实例化路由并配置前缀;
 const router = new Router({ prefix: '/' });
 // 用户注册;

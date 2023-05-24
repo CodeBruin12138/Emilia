@@ -2,6 +2,7 @@
 
 // 商品数据库模型;
 const GoodsModel = require('../model/goods.model');
+const { Op } = require('sequelize');
 // 错误类型;
 const {
   publishGoodsFail,
@@ -105,6 +106,26 @@ class GoodsService {
     }
   }
 
-  // 获取商品详情;
+  // 搜索商品;
+  async searchGoods(keyword) {
+    try {
+      // 根据商品名称模糊查询商品;
+      const result = await GoodsModel.findAll({
+        where: {
+          goods_name: {
+            [Op.like]: `%${keyword}%`,
+          },
+        },
+        attributes: ['goods_name'],
+      });
+      return result.length > 0
+        ? result.map((item) => item.dataValues.goods_name)
+        : null;
+    } catch (error) {
+      console.error('搜索商品失败', error);
+      ctx.app.emit('error', searchGoodsFail, ctx);
+      return;
+    }
+  }
 }
 module.exports = new GoodsService();
