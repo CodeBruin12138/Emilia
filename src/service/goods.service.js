@@ -116,14 +116,27 @@ class GoodsService {
             [Op.like]: `%${keyword}%`,
           },
         },
-        attributes: ['goods_name'],
+        attributes: ['goods_name', 'id'],
       });
-      return result.length > 0
-        ? result.map((item) => item.dataValues.goods_name)
-        : null;
+      return result.length > 0 ? result.map((item) => item.dataValues) : null;
     } catch (error) {
       console.error('搜索商品失败', error);
       ctx.app.emit('error', searchGoodsFail, ctx);
+      return;
+    }
+  }
+  // 获取商品详情;
+  async getGoodsDetailService(id) {
+    try {
+      const result = await GoodsModel.findOne({
+        where: {
+          id,
+        },
+      });
+      return result ? result.dataValues : null;
+    } catch (error) {
+      console.error('获取商品详情失败', error);
+      ctx.app.emit('error', getGoodsFail, ctx);
       return;
     }
   }

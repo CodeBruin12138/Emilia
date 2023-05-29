@@ -10,6 +10,7 @@ const {
   getGoodsList,
   getShopGoodsList,
   searchGoods,
+  getGoodsDetailController,
 } = require('../controller/goods.controller');
 //中间件;
 const {
@@ -60,12 +61,13 @@ router.post(
   // 上架商品;
   restoreGoods
 );
-// 删除商品;
 // 获取商品列表;
 router.get('/getGoodsList', getGoodsList);
 // 获取店铺商品列表;
 router.get('/getShopGoodsList', verifyToken, getShopGoodsList);
 // 实时搜索商品;
 router.get('/searchGoods', searchGoods);
+// 获取商品详情;
+router.get('/getGoodsDetail/:id', getGoodsDetailController);
 
 module.exports = router;

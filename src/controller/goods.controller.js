@@ -8,6 +8,7 @@ const {
   restoreGoods,
   getGoodsList,
   searchGoods,
+  getGoodsDetailService,
 } = require('../service/goods.service');
 // 错误类型;
 const {
@@ -165,6 +166,29 @@ class GoodsController {
       ctx.app.emit('error', searchGoodsFail, ctx);
       return;
     }
+  }
+  // 获取商品详情;
+  async getGoodsDetailController(ctx, next) {
+    try {
+      // 获取用户请求数据;
+      const id = ctx.params.id;
+      // 调用数据库操作;
+      const result = await getGoodsDetailService(id);
+      if (result) {
+        // 删除多余的数据;
+        delete result.createdAt;
+        delete result.updatedAt;
+        ctx.body = {
+          code: 0,
+          message: '查询商品成功',
+          result,
+        };
+      } else {
+        console.error('无效的商品id', ctx.params.id);
+        ctx.app.emit('error', invalidGoodsId, ctx);
+        return;
+      }
+    } catch (error) {}
   }
 }
 module.exports = new GoodsController();
