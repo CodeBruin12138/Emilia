@@ -48,4 +48,16 @@ module.exports = {
     message: '参数不完整',
     result: '',
   },
+  //该账号非数据库管理员账号;
+  verifyisDBAdminFail: {
+    code: 20009,
+    message: '校验数据库管理员账号失败',
+    result: '',
+  },
+  //该账号非数据库管理员账号;
+  verifyisDBAdminError: {
+    code: 20010,
+    message: '该账号非数据库管理员账号',
+    result: '',
+  },
 };

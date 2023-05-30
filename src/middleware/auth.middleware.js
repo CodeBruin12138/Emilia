@@ -12,7 +12,8 @@ const {
   verifySuperShopAdminFail,
   verifySuperShopAdminError,
   verifyParamsFail,
-  verifyParamsError,
+  verifyisDBAdminFail,
+  verifyisDBAdminError,
 } = require('../constant/error/auth.error.type');
 
 // token校验;
@@ -130,11 +131,31 @@ const validateParams = (rules, errorType) => {
     }
   };
 };
-
+//校验账号是否为数据库管理员(拥有操作数据库任意数据的权限,包括删除数据,但无法操作数据库中账号权限值的大小);
+const verifyisDBAdmin = async (ctx, next) => {
+  try {
+    // 获取用户信息;
+    const user_admin = ctx.state.user.user_admin;
+    // 现在只是校验了用户是否为管理员,后期如果考虑安全还需要校验用户设备和一些约定的密码需要管理员在发送请求的时候一起上传;
+    // 在body中有一个db_appoint_password字段是必传的,可以用来约定一些特殊字符用于校验数据库管理员账号,这里就不使用了,有需要的可以用来做基础校验;
+    // 如果管理员账号不是最高权限;
+    if (user_admin !== 9) {
+      console.error('该账号非数据库管理员账号', ctx.state.user);
+      ctx.app.emit('error', verifyisDBAdminError, ctx);
+      return;
+    }
+    await next();
+  } catch (error) {
+    console.error('校验数据库管理员账号失败', error);
+    ctx.app.emit('error', verifyisDBAdminFail, ctx);
+    return;
+  }
+};
 // 导出;
 module.exports = {
   verifyToken,
   verifySuperShopAdmin,
   verifyParams,
   validateParams,
+  verifyisDBAdmin,
 };

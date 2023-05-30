@@ -9,6 +9,7 @@ const {
   getGoodsList,
   searchGoods,
   getGoodsDetailService,
+  addGoodsTypeService,
 } = require('../service/goods.service');
 // 错误类型;
 const {
@@ -19,6 +20,8 @@ const {
   restoreGoodsFail,
   getGoodsListFail,
   searchGoodsFail,
+  getGoodsFail,
+  addGoodsTypeFail,
 } = require('../constant/error/goods.error.type');
 class GoodsController {
   // 发布商品;
@@ -170,7 +173,7 @@ class GoodsController {
   // 获取商品详情;
   async getGoodsDetailController(ctx, next) {
     try {
-      // 获取用户请求数据;
+      // 获取请求参数;
       const id = ctx.params.id;
       // 调用数据库操作;
       const result = await getGoodsDetailService(id);
@@ -188,7 +191,47 @@ class GoodsController {
         ctx.app.emit('error', invalidGoodsId, ctx);
         return;
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error('查询商品失败', error);
+      ctx.app.emit('error', getGoodsFail, ctx);
+      return;
+    }
+  }
+
+  // 添加商品分类;
+  async addGoodsTypeController(ctx, next) {
+    try {
+      // 获取用户请求数据;
+      const {
+        goods_category_first,
+        goods_category_second,
+        goods_category_third,
+      } = ctx.request.body;
+      // 调用数据库操作;
+      const result = await addGoodsTypeService({
+        goods_category_first,
+        goods_category_second,
+        goods_category_third,
+      });
+      if (result) {
+        // 获取用户信息;
+        const user_name = ctx.state.user.user_name;
+        // 剔除多余的数据;
+        delete result.createdAt;
+        delete result.updatedAt;
+        // 获取当前时间;
+        ctx.body = {
+          code: 0,
+          message: `尊敬的数据库管理员${user_name},您添加的商品分类已经成功上传`,
+          result,
+        };
+      } else {
+      }
+    } catch (error) {
+      console.error('添加商品分类失败', error);
+      ctx.app.emit('error', addGoodsTypeFail, ctx);
+      return;
+    }
   }
 }
 module.exports = new GoodsController();

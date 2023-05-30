@@ -11,11 +11,13 @@ const {
   getShopGoodsList,
   searchGoods,
   getGoodsDetailController,
+  addGoodsTypeController,
 } = require('../controller/goods.controller');
 //中间件;
 const {
   verifyToken,
   verifySuperShopAdmin,
+  verifyisDBAdmin,
 } = require('../middleware/auth.middleware');
 // 路由;
 const Router = require('@koa/router');
@@ -69,5 +71,15 @@ router.get('/getShopGoodsList', verifyToken, getShopGoodsList);
 router.get('/searchGoods', searchGoods);
 // 获取商品详情;
 router.get('/getGoodsDetail/:id', getGoodsDetailController);
+// 增加商品种类;
+router.post(
+  '/addGoodsType',
+  // 验证token;
+  verifyToken,
+  //校验用户是否为数据库管理员;
+  verifyisDBAdmin,
+  // 增加商品种类;
+  addGoodsTypeController
+);
 
 module.exports = router;

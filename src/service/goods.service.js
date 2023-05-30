@@ -2,6 +2,8 @@
 
 // 商品数据库模型;
 const GoodsModel = require('../model/goods.model');
+// 商品分类数据库模型;
+const GoodsCategorytModel = require('../model/goods.category.model');
 const { Op } = require('sequelize');
 // 错误类型;
 const {
@@ -11,6 +13,8 @@ const {
   restoreGoodsFail,
   getGoodsListFail,
   getGoodsFail,
+  searchGoodsFail,
+  addGoodsTypeFail,
 } = require('../constant/error/goods.error.type');
 class GoodsService {
   // 发布商品;
@@ -137,6 +141,25 @@ class GoodsService {
     } catch (error) {
       console.error('获取商品详情失败', error);
       ctx.app.emit('error', getGoodsFail, ctx);
+      return;
+    }
+  }
+  // 增加商品种类;
+  async addGoodsTypeService({
+    goods_category_first,
+    goods_category_second,
+    goods_category_third,
+  }) {
+    try {
+      const result = await GoodsCategorytModel.create({
+        goods_category_first,
+        goods_category_second,
+        goods_category_third,
+      });
+      return result.dataValues ? result.dataValues : null;
+    } catch (error) {
+      console.error('添加商品种类失败', error);
+      ctx.app.emit('error', addGoodsTypeFail, ctx);
       return;
     }
   }

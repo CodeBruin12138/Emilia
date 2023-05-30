@@ -48,4 +48,10 @@ module.exports = {
     message: '搜索商品失败',
     result: '',
   },
+  //添加商品种类失败;
+  addGoodsTypeFail: {
+    code: 40009,
+    message: '添加商品种类失败',
+    result: '',
+  },
 };
