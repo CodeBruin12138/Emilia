@@ -61,13 +61,23 @@ const GoodsModel = seq.define(
       // 注释;
       comment: '商品所属店铺',
     },
+    // 商品分类;
+    goods_category_third: {
+      // 类型;
+      type: DataTypes.STRING,
+      // 是否允许为空;
+      allowNull: false,
+      //是否唯一;
+      unique: false,
+      // 注释;
+      comment: '商品分类',
+    },
   },
   {
     // 伪删除;
     paranoid: true,
   }
 );
-
 // 模型同步;
 // GoodsModel.sync({ force: true });
 // 导出;

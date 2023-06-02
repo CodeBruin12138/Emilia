@@ -54,4 +54,22 @@ module.exports = {
     message: '添加商品种类失败',
     result: '',
   },
+  // 查询商品种类失败;
+  getGoodsTypeFail: {
+    code: 40010,
+    message: '查询商品种类失败',
+    result: '',
+  },
+  // 校验商品种类是否存在父子关系失败;
+  verifyGoodsTypeGradeIsRightFail: {
+    code: 40011,
+    message: '校验商品种类是否存在父子关系失败',
+    result: '',
+  },
+  // 无效的商品分类;
+  invalidGoodsType: {
+    code: 40012,
+    message: '无效的商品分类',
+    result: '',
+  },
 };

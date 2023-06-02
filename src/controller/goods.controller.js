@@ -10,6 +10,7 @@ const {
   searchGoods,
   getGoodsDetailService,
   addGoodsTypeService,
+  getGoodsTypeService,
 } = require('../service/goods.service');
 // 错误类型;
 const {
@@ -22,6 +23,7 @@ const {
   searchGoodsFail,
   getGoodsFail,
   addGoodsTypeFail,
+  invalidGoodsType,
 } = require('../constant/error/goods.error.type');
 class GoodsController {
   // 发布商品;
@@ -31,17 +33,29 @@ class GoodsController {
       const user_shop = ctx.state.user.user_shop;
       // 添加到请求体中;
       ctx.request.body.shop_id = user_shop;
-      // 获取用户请求数据并操作数据库;
-      const result = await createGoods(ctx.request.body);
-      // 剔除多余的数据;
-      delete result.createdAt;
-      delete result.updatedAt;
-      console.log(result);
-      ctx.body = {
-        code: 0,
-        message: '发布商品成功',
-        result,
-      };
+      // 获取用户请求中的商品分类;
+      const goods_category_third = ctx.request.body.goods_category_third;
+      // 查询商品分类是否存在;
+      const getGoodsTypeResult = await getGoodsTypeService(
+        goods_category_third
+      );
+      // 如果分类存在则进行商品添加;
+      if (getGoodsTypeResult) {
+        // 获取用户请求数据并操作数据库;
+        const addGoodsResult = await createGoods(ctx.request.body);
+        // 剔除多余的数据;
+        delete addGoodsResult.createdAt;
+        delete addGoodsResult.updatedAt;
+        ctx.body = {
+          code: 0,
+          message: '发布商品成功',
+          result: addGoodsResult,
+        };
+      } else {
+        console.error('无效的商品分类', goods_category_third);
+        ctx.app.emit('error', invalidGoodsType, ctx);
+        return;
+      }
     } catch (error) {
       console.error('发布商品失败', error);
       ctx.app.emit('error', publishGoodsFail, ctx);

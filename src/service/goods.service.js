@@ -15,6 +15,7 @@ const {
   getGoodsFail,
   searchGoodsFail,
   addGoodsTypeFail,
+  getGoodsTypeFail,
 } = require('../constant/error/goods.error.type');
 class GoodsService {
   // 发布商品;
@@ -160,6 +161,23 @@ class GoodsService {
     } catch (error) {
       console.error('添加商品种类失败', error);
       ctx.app.emit('error', addGoodsTypeFail, ctx);
+      return;
+    }
+  }
+  // 查询商品分类;
+  async getGoodsTypeService(goods_category_third) {
+    try {
+      // 商品上传的每一类都需要进行核实;
+      // 查询商品分类是否存在;
+      const result = await GoodsCategorytModel.findOne({
+        where: {
+          goods_category_third,
+        },
+      });
+      return result.dataValues ? result.dataValues : null;
+    } catch (error) {
+      console.error('查询商品种类失败', error);
+      ctx.app.emit('error', getGoodsTypeFail, ctx);
       return;
     }
   }
