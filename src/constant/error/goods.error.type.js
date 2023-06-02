@@ -72,4 +72,10 @@ module.exports = {
     message: '无效的商品分类',
     result: '',
   },
+  // 搜索商品种类失败;
+  searchGoodsTypeFail: {
+    code: 40013,
+    message: '搜索商品种类失败',
+    result: '',
+  },
 };

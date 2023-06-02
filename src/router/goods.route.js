@@ -12,6 +12,7 @@ const {
   searchGoods,
   getGoodsDetailController,
   addGoodsTypeController,
+  searchGoodsTypeController,
 } = require('../controller/goods.controller');
 //中间件;
 const {
@@ -67,7 +68,9 @@ router.post(
 router.get('/getGoodsList', getGoodsList);
 // 获取店铺商品列表;
 router.get('/getShopGoodsList', verifyToken, getShopGoodsList);
-// 实时搜索商品;
+// 搜索商品类别;
+router.get('/searchGoodsType', searchGoodsTypeController);
+// 根据商品类别详细搜索同类商品;
 router.get('/searchGoods', searchGoods);
 // 获取商品详情;
 router.get('/getGoodsDetail/:id', getGoodsDetailController);

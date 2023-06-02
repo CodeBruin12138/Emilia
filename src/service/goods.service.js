@@ -16,6 +16,7 @@ const {
   searchGoodsFail,
   addGoodsTypeFail,
   getGoodsTypeFail,
+  searchGoodsTypeFail,
 } = require('../constant/error/goods.error.type');
 class GoodsService {
   // 发布商品;
@@ -111,14 +112,40 @@ class GoodsService {
     }
   }
 
+  // 搜索商品分类;
+  async searchGoodsTypeService(search_goods_type) {
+    try {
+      // 根据商品名称模糊查询商品;
+      const result = await GoodsCategorytModel.findAll({
+        where: {
+          goods_category_third: {
+            [Op.like]: `%${search_goods_type}%`,
+          },
+        },
+        attributes: [
+          'id',
+          'goods_category_first',
+          'goods_category_second',
+          'goods_category_third',
+        ],
+      });
+
+      return result.length > 0 ? result.map((item) => item.dataValues) : null;
+    } catch (error) {
+      console.error('搜索商品失败', error);
+      ctx.app.emit('error', searchGoodsTypeFail, ctx);
+      return;
+    }
+  }
+
   // 搜索商品;
-  async searchGoods(keyword) {
+  async searchGoods(goods_category_third) {
     try {
       // 根据商品名称模糊查询商品;
       const result = await GoodsModel.findAll({
         where: {
-          goods_name: {
-            [Op.like]: `%${keyword}%`,
+          goods_category_third: {
+            [Op.like]: `%${goods_category_third}%`,
           },
         },
         attributes: ['goods_name', 'id'],

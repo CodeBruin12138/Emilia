@@ -11,6 +11,7 @@ const {
   getGoodsDetailService,
   addGoodsTypeService,
   getGoodsTypeService,
+  searchGoodsTypeService,
 } = require('../service/goods.service');
 // 错误类型;
 const {
@@ -24,6 +25,7 @@ const {
   getGoodsFail,
   addGoodsTypeFail,
   invalidGoodsType,
+  searchGoodsTypeFail,
 } = require('../constant/error/goods.error.type');
 class GoodsController {
   // 发布商品;
@@ -158,7 +160,35 @@ class GoodsController {
   }
   // 获取店铺商品列表;
   async getShopGoodsList(ctx, next) {}
-  // 搜索商品;
+
+  // 搜索商品类别;
+  async searchGoodsTypeController(ctx, next) {
+    try {
+      // 获取用户请求数据;
+      const { search_goods_type } = ctx.request.query;
+      // 调用数据库操作;
+      const result = await searchGoodsTypeService(search_goods_type);
+      if (result) {
+        ctx.body = {
+          code: 0,
+          message: '搜索商品类别成功',
+          result,
+        };
+      } else {
+        ctx.body = {
+          code: 0,
+          message: '暂无搜索结果',
+          result,
+        };
+      }
+    } catch (error) {
+      console.error('搜索商品类别失败', error);
+      ctx.app.emit('error', searchGoodsTypeFail, ctx);
+      return;
+    }
+  }
+
+  // 根据类别详细搜索商品;
   async searchGoods(ctx, next) {
     try {
       //获取用户请求数据;
