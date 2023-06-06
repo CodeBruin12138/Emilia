@@ -137,18 +137,48 @@ class GoodsService {
       return;
     }
   }
-
-  // 搜索商品;
-  async searchGoods(goods_category_third) {
+  //根据商品名称模糊查询商品;
+  async searchGoodsNameService(search_goods_name) {
     try {
       // 根据商品名称模糊查询商品;
       const result = await GoodsModel.findAll({
         where: {
-          goods_category_third: {
-            [Op.like]: `%${goods_category_third}%`,
+          goods_name: {
+            [Op.like]: `%${search_goods_name}%`,
           },
         },
-        attributes: ['goods_name', 'id'],
+        attributes: [
+          'id',
+          'goods_name',
+          'goods_price',
+          'goods_stock',
+          'goods_img',
+          'shop_id',
+          'goods_category_third',
+        ],
+      });
+      return result.length > 0 ? result.map((item) => item.dataValues) : null;
+    } catch (error) {
+      console.error('搜索商品失败', error);
+      ctx.app.emit('error', searchGoodsFail, ctx);
+      return;
+    }
+  }
+  // 根据分类搜索商品;
+  async searchGoodsService(goods_category_third) {
+    try {
+      // 根据商品名称模糊查询商品;
+      const result = await GoodsModel.findAll({
+        where: { goods_category_third },
+        attributes: [
+          'id',
+          'goods_name',
+          'goods_price',
+          'goods_stock',
+          'goods_img',
+          'shop_id',
+          'goods_category_third',
+        ],
       });
       return result.length > 0 ? result.map((item) => item.dataValues) : null;
     } catch (error) {

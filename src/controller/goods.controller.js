@@ -7,11 +7,12 @@ const {
   removeGoods,
   restoreGoods,
   getGoodsList,
-  searchGoods,
+  searchGoodsService,
   getGoodsDetailService,
   addGoodsTypeService,
   getGoodsTypeService,
   searchGoodsTypeService,
+  searchGoodsNameService,
 } = require('../service/goods.service');
 // 错误类型;
 const {
@@ -187,14 +188,13 @@ class GoodsController {
       return;
     }
   }
-
   // 根据类别详细搜索商品;
-  async searchGoods(ctx, next) {
+  async searchGoodsController(ctx, next) {
     try {
       //获取用户请求数据;
-      const { keyword } = ctx.request.query;
+      const { goods_category_third } = ctx.request.query;
       //调用数据库操作;
-      const result = await searchGoods(keyword);
+      const result = await searchGoodsService(goods_category_third);
       if (result) {
         ctx.body = {
           code: 0,
@@ -239,6 +239,31 @@ class GoodsController {
       console.error('查询商品失败', error);
       ctx.app.emit('error', getGoodsFail, ctx);
       return;
+    }
+  }
+  // 根据商品名称搜索商品;
+  async searchGoodsNameController(ctx, next) {
+    try {
+      // 获取用户请求数据;
+      const { search_goods_name } = ctx.request.query;
+      // 调用数据库操作;
+      const result = await searchGoodsNameService(search_goods_name);
+      if (result) {
+        ctx.body = {
+          code: 0,
+          message: '搜索商品成功',
+          result,
+        };
+      } else {
+        ctx.body = {
+          code: 0,
+          message: '暂无搜索结果',
+          result,
+        };
+      }
+    } catch (error) {
+      console.error('搜索商品失败', error);
+      ctx.app.emit('error', searchGoodsFail, ctx);
     }
   }
 

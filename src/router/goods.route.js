@@ -9,10 +9,11 @@ const {
   restoreGoods,
   getGoodsList,
   getShopGoodsList,
-  searchGoods,
+  searchGoodsController,
   getGoodsDetailController,
   addGoodsTypeController,
   searchGoodsTypeController,
+  searchGoodsNameController,
 } = require('../controller/goods.controller');
 //中间件;
 const {
@@ -71,7 +72,7 @@ router.get('/getShopGoodsList', verifyToken, getShopGoodsList);
 // 搜索商品类别;
 router.get('/searchGoodsType', searchGoodsTypeController);
 // 根据商品类别详细搜索同类商品;
-router.get('/searchGoods', searchGoods);
+router.get('/searchGoods', searchGoodsController);
 // 获取商品详情;
 router.get('/getGoodsDetail/:id', getGoodsDetailController);
 // 增加商品种类;
@@ -84,5 +85,7 @@ router.post(
   // 增加商品种类;
   addGoodsTypeController
 );
+// 根据商品名称搜索商品;
+router.get('/searchGoodsName', searchGoodsNameController);
 
 module.exports = router;

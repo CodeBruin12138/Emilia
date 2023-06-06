@@ -15,6 +15,7 @@ const {
   userChangePasswordFail,
   userChangePasswordError,
 } = require('../constant/error/user.error.type');
+const { tokenVerifyFail } = require('../constant/error/auth.error.type');
 class UserController {
   // 用户注册;
   async userRegister(ctx, next) {
@@ -88,6 +89,20 @@ class UserController {
     } catch (error) {
       console.error('修改密码时出错', error);
       ctx.app.emit('error', userChangePasswordError, ctx);
+      return;
+    }
+  }
+  // 校验token;
+  async verifyTokenController(ctx, next) {
+    try {
+      ctx.body = {
+        code: 0,
+        message: '校验token成功',
+        result: '',
+      };
+    } catch (error) {
+      console.error('校验token失败', error);
+      ctx.app.emit('error', tokenVerifyFail, ctx);
       return;
     }
   }
