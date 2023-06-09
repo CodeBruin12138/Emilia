@@ -21,6 +21,32 @@ const UserModel = seq.define('emilia_user', {
     unique: false,
     comment: '用户密码',
   },
+  user_title: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: false,
+    comment: '用户网名',
+  },
+  user_img: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: false,
+    comment: '用户头像',
+  },
+  user_sex: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false,
+    defaultValue: '0',
+    comment: '用户性别,0为保密,1为男,2为女',
+  },
+  user_age: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: false,
+    defaultValue: '18',
+    comment: '用户年龄',
+  },
   // 是否为管理员;
   user_admin: {
     type: DataTypes.INTEGER,
@@ -37,14 +63,6 @@ const UserModel = seq.define('emilia_user', {
     unique: false,
     defaultValue: '0',
     comment: '用户店铺号',
-  },
-  //用户数据;
-  user_data: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: false,
-    defaultValue: '0',
-    comment: '用户数据',
   },
 });
 // 模型同步;

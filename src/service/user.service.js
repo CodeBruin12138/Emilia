@@ -28,9 +28,12 @@ class UserService {
     id,
     user_name,
     user_password,
+    user_title,
+    user_img,
+    user_sex,
+    user_age,
     user_admin,
     user_shop,
-    user_data,
   }) {
     try {
       //   定义查询条件;
@@ -39,9 +42,12 @@ class UserService {
       id && Object.assign(whereOpt, { id });
       user_name && Object.assign(whereOpt, { user_name });
       user_password && Object.assign(whereOpt, { user_password });
+      user_title && Object.assign(whereOpt, { user_title });
+      user_img && Object.assign(whereOpt, { user_img });
+      user_sex && Object.assign(whereOpt, { user_sex });
+      user_age && Object.assign(whereOpt, { user_age });
       user_admin && Object.assign(whereOpt, { user_admin });
       user_shop && Object.assign(whereOpt, { user_shop });
-      user_data && Object.assign(whereOpt, { user_data });
       //   查询用户;
       const result = await UserModel.findOne({
         //   查询字段;
@@ -49,9 +55,12 @@ class UserService {
           'id',
           'user_name',
           'user_password',
+          'user_title',
+          'user_img',
+          'user_sex',
+          'user_age',
           'user_admin',
           'user_shop',
-          'user_data',
         ],
         // 查询条件;
         where: whereOpt,
@@ -68,18 +77,24 @@ class UserService {
     id,
     user_name,
     user_password,
+    user_title,
+    user_img,
+    user_sex,
+    user_age,
     user_admin,
     user_shop,
-    user_data,
   }) {
     try {
       const whereOpt = { id };
       const newUser = {};
       user_name && Object.assign(newUser, { user_name });
       user_password && Object.assign(newUser, { user_password });
+      user_title && Object.assign(newUser, { user_title });
+      user_img && Object.assign(newUser, { user_img });
+      user_age && Object.assign(newUser, { user_age });
+      user_sex && Object.assign(newUser, { user_sex });
       user_admin && Object.assign(newUser, { user_admin });
       user_shop && Object.assign(newUser, { user_shop });
-      user_data && Object.assign(newUser, { user_data });
       const result = await UserModel.update(newUser, {
         where: whereOpt,
       });

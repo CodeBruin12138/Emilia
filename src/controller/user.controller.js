@@ -54,11 +54,13 @@ class UserController {
       const result = await getUserInfo({ user_name });
       //剔除密码;
       delete result.user_password;
+      // 返回数据;
       ctx.body = {
         code: 0,
         message: '登录成功',
         result: {
           token: jwt.sign(result, JWT_SECRET, { expiresIn: '1d' }),
+          user: result,
         },
       };
     } catch (error) {
