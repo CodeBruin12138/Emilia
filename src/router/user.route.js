@@ -16,6 +16,7 @@ const {
   userLogin,
   userChangePassword,
   verifyTokenController,
+  verifyCodeController,
 } = require('../controller/user.controller');
 // 实例化路由并配置前缀;
 const router = new Router({ prefix: '/users' });
@@ -53,5 +54,7 @@ router.patch(
 );
 //校验token;
 router.post('/verifyToken', verifyToken, verifyTokenController);
+// 生成验证码;
+router.get('/verifyCode', verifyCodeController);
 
 module.exports = router;

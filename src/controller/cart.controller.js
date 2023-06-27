@@ -31,8 +31,10 @@ class CartController {
       // 获取用户请求参数;
       const user_id = ctx.state.user.id;
       const goods_id = ctx.request.body.goods_id;
+      const shop_id = ctx.request.body.shop_id;
       // 检查商品是否存在;
       const res = await searchGoods(goods_id);
+      // 检查店铺是否存在;
       if (res) {
         // 如果商品存在就继续;
         // 添加购物车;
@@ -172,6 +174,17 @@ class CartController {
     } catch (error) {
       console.error('购物车全不选失败', error);
       ctx.app.emit('error', unCheckAllFail, ctx);
+      return;
+    }
+  }
+  //获取用户购物车中所有店铺id;
+  async getUserCartShopIdController(ctx, next) {
+    // 获取已挂载的用户id;
+    const user_id = ctx.state.user.id;
+    try {
+    } catch (error) {
+      console.error('获取用户购物车中所有店铺id失败', error);
+      ctx.app.emit('error', getUserCartShopIdFail, ctx);
       return;
     }
   }

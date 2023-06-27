@@ -153,6 +153,11 @@ class CartService {
       return;
     }
   }
+  // 获取用户购物车中所有店铺id;
+  async getUserCartShopIdService(Shop_id) {
+    try {
+    } catch (error) {}
+  }
 }
 
 module.exports = new CartService();

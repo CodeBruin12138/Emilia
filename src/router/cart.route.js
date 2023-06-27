@@ -9,6 +9,7 @@ const {
   delCart,
   checkAll,
   unCheckAll,
+  getUserCartShopIdController,
 } = require('../controller/cart.controller');
 //中间件;
 const {
@@ -30,7 +31,6 @@ router.post(
   //添加购物车;
   addCart
 );
-
 // 获取购物车列表;
 router.get(
   '/getCartList',
@@ -96,6 +96,14 @@ router.post(
   verifyToken,
   //购物车全不选;
   unCheckAll
+);
+// 获取用户购物车中的所有店铺id;
+router.post(
+  '/getUserCartShopId',
+  //校验用户是否登录;
+  verifyToken,
+  //获取用户购物车中的所有店铺id;
+  getUserCartShopIdController
 );
 
 module.exports = router;

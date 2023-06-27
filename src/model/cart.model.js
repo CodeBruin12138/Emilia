@@ -19,6 +19,16 @@ const CartModel = seq.define(
       // 注释;
       comment: '商品id',
     },
+    shop_id: {
+      // 类型;
+      type: DataTypes.INTEGER,
+      // 是否允许为空;
+      allowNull: false,
+      //是否唯一;
+      unique: false,
+      // 注释;
+      comment: '店铺id',
+    },
     //用户id;
     user_id: {
       // 类型;

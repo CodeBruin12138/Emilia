@@ -16,6 +16,13 @@ const validateCart = async (ctx, next) => {
         // 必填;
         required: true,
       },
+      // 店铺id;
+      shop_id: {
+        // 类型;
+        type: 'number',
+        // 必填;
+        required: true,
+      },
     });
     await next();
   } catch (error) {
